@@ -31,6 +31,8 @@ const visible = ref(false);
 
 /**
  * Request information data on mounted
+ *
+ * @author Yuto Saito
  */
 onMounted(() => {
   new ApiRequester<GetInformationRequest, GetInformationResponse>().call(
@@ -52,6 +54,7 @@ onMounted(() => {
  *
  * @param {Information} selected information
  * @returns {void}
+ * @author Yuto Saito
  */
 function showDetails(selected: Information): void {
   selectedInfo.value = selected;
@@ -61,7 +64,9 @@ function showDetails(selected: Information): void {
 /**
  * Close information detail
  *
- * @returns void
+ * @returns {void}
+ * @author Yuto Saito
+
  */
 function closeDetails(): void {
   visible.value = false;

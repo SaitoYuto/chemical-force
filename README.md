@@ -1,9 +1,11 @@
 # Chemical Force
 
-Checmical Force is a fictional company, dealing with checmical product.
+Chemical Force is a fictional company, dealing with chemical product.
 
 ## FrontEnd
 
+Check `frontend` directory.
+
 ## BackEnd
 
-## Database
+Check `backend` directory.

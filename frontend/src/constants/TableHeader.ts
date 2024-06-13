@@ -36,7 +36,7 @@ export const PRODUCT_HEADER: VDataTable["$props"]["headers"] = [
     value: "name",
     title: "Name",
   } as const,
-  { key: "desc", value: "desc", title: "Description" } as const,
+  { key: "desc", value: "desc", title: "Description", width: "60%" } as const,
   { key: "price", value: "price", title: "Price(£)" } as const,
   {
     key: "volume",

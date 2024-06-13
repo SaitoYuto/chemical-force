@@ -42,11 +42,23 @@ const router = useRouter();
 const userStore = user();
 const logoutDialog = ref(false);
 
-function showLogoutDialog() {
+/**
+ * Show logout dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showLogoutDialog(): void {
   logoutDialog.value = true;
 }
 
-function logout() {
+/**
+ * Logout
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function logout(): void {
   userStore.clear();
   router.push("login");
 }

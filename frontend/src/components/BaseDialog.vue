@@ -24,19 +24,28 @@
 <script lang="ts" setup>
 import BaseButton from "@/atoms/BaseButton.vue";
 import { UI } from "@/constants/UI";
+
 const emit = defineEmits();
+
+const visibility = defineModel("visibility", {
+  type: Boolean,
+  default: false,
+});
+
 defineProps({
   text: {
     type: String,
     required: true,
   },
 });
-const visibility = defineModel("visibility", {
-  type: Boolean,
-  default: false,
-});
 
-function close() {
+/**
+ * Close dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function close(): void {
   visibility.value = false;
 }
 </script>

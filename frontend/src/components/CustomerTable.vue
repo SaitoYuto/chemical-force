@@ -49,6 +49,7 @@ import { DeleteCustomerResponse } from "@/interfaces/Responses/DeleteCustomer";
 import { SetCustomerResponse } from "@/interfaces/Responses/SetCustomer";
 import ApiRequester from "@/utils/ApiRequester";
 
+// Initial clicked customer data
 const clickedRow = ref<Customer>({
   id: "",
   honorific: "",
@@ -69,12 +70,25 @@ defineProps({
   },
 });
 
-function showEditDialog(row: Customer) {
+/**
+ * Show edit dialog
+ *
+ * @param {Customer} row
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showEditDialog(row: Customer): void {
   editDialog.value = true;
   clickedRow.value = row;
 }
 
-function updateCustomer() {
+/**
+ * Send update customer request
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function updateCustomer(): void {
   new ApiRequester<SetCustomerRequest, SetCustomerResponse>().call(
     "setCustomer",
     {
@@ -96,11 +110,23 @@ function updateCustomer() {
   );
 }
 
-function showDeleteDialog() {
+/**
+ * Show delete dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showDeleteDialog(): void {
   deleteDialog.value = true;
 }
 
-function deleteCustomer() {
+/**
+ * Send delete customer request
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function deleteCustomer(): void {
   new ApiRequester<DeleteCustomerRequest, DeleteCustomerResponse>().call(
     "deleteCustomer",
     { id: clickedRow.value.id },

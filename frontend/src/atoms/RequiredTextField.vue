@@ -41,7 +41,7 @@ const input = defineModel("input", {
 });
 
 /**
- * check if the input exists
+ * Check if the input exists
  *
  * @returns {boolean | string}
  * @author Yuto Saito

@@ -1,28 +1,36 @@
-import { http } from "msw";
-import deleteCustomer from "@/mocks/api/deleteCustomer";
-import getArea from "@/mocks/api/getArea";
-import getInformation from "@/mocks/api/getInformation";
-import getUserDeal from "@/mocks/api/getUserDeal";
-import login from "@/mocks/api/login";
-import setCustomer from "@/mocks/api/setCustomer";
+import { http, HttpResponse } from "msw";
+import { deleteCustomerResponse } from "@/mocks/api/deleteCustomer";
+import { deleteProductResponse } from "@/mocks/api/deleteProduct";
+import { getAreaResponse } from "@/mocks/api/getArea";
+import { getInformationResponse } from "@/mocks/api/getInformation";
+import { getUserDealResponse } from "@/mocks/api/getUserDeal";
+import { loginResponse } from "@/mocks/api/login";
+import { setCustomerResponse } from "@/mocks/api/setCustomer";
+import { setProductResponse } from "@/mocks/api/setProduct";
 
 export const handlers = [
+  http.post("/api/deleteCustomer", () => {
+    return HttpResponse.json(deleteCustomerResponse);
+  }),
+  http.post("/api/deleteProduct", () => {
+    return HttpResponse.json(deleteProductResponse);
+  }),
   http.post("/api/getArea", () => {
-    return getArea;
+    return HttpResponse.json(getAreaResponse);
   }),
   http.post("/api/getInformation", () => {
-    return getInformation;
+    return HttpResponse.json(getInformationResponse);
   }),
   http.post("/api/getUserDeal", () => {
-    return getUserDeal;
-  }),
-  http.post("/api/setCustomer", () => {
-    return setCustomer;
-  }),
-  http.post("/api/deleteCustomer", () => {
-    return deleteCustomer;
+    return HttpResponse.json(getUserDealResponse);
   }),
   http.post("/api/login", () => {
-    return login;
+    return HttpResponse.json(loginResponse);
+  }),
+  http.post("/api/setCustomer", () => {
+    return HttpResponse.json(setCustomerResponse);
+  }),
+  http.post("/api/setProduct", () => {
+    return HttpResponse.json(setProductResponse);
   }),
 ];

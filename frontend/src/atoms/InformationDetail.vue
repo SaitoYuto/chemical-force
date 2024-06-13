@@ -27,7 +27,7 @@ defineProps({
   info: {
     type: Object as PropType<Information>,
     required: true,
-    default: {},
+    default: { id: "", title: "", content: "" },
   },
 });
 </script>

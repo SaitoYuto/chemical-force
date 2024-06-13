@@ -9,7 +9,7 @@
 import { user } from "@/stores/user";
 
 /**
- * get greed message depends on current hour
+ * Get greed message depends on current hour
  *
  * @returns {string} greed message
  * @author Yuto Saito

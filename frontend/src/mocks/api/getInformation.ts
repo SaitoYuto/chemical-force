@@ -1,18 +1,17 @@
 import Chance from "chance";
 import { Information } from "@/interfaces/Common/Information";
 import { GetInformationResponse } from "@/interfaces/Responses/GetInformation";
-import { HttpResponse } from "msw";
 
-export default HttpResponse.json({
-  information: initInfos(),
-} as GetInformationResponse);
+export const getInformationResponse = {
+  information: generateInfo(),
+} as GetInformationResponse;
 
 /**
  * Generate random information data
  *
  * @returns {Information[]} random information data
  */
-function initInfos(): Information[] {
+function generateInfo(): Information[] {
   const infos = [];
   const chance = new Chance();
   for (let i = 0; i <= chance.natural({ min: 1, max: 10 }); i++) {

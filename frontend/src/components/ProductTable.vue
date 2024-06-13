@@ -47,8 +47,9 @@ import { DeleteProductRequest } from "@/interfaces/Requests/DeleteProduct";
 import { SetProductRequest } from "@/interfaces/Requests/SetProduct";
 import { DeleteProductResponse } from "@/interfaces/Responses/DeleteProduct";
 import { SetProductResponse } from "@/interfaces/Responses/SetProduct";
-
 import ApiRequester from "@/utils/ApiRequester";
+
+// Initial clicked product data
 const clickedRow = ref<Product>({
   id: "",
   name: "",
@@ -68,7 +69,25 @@ defineProps({
   },
 });
 
-function updateProduct() {
+/**
+ * Show edit dialog
+ *
+ * @param {Product} row
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showEditDialog(row: Product): void {
+  editDialog.value = true;
+  clickedRow.value = row;
+}
+
+/**
+ * Send update product request
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function updateProduct(): void {
   new ApiRequester<SetProductRequest, SetProductResponse>().call(
     "setProduct",
     {
@@ -89,15 +108,22 @@ function updateProduct() {
   );
 }
 
-function showEditDialog(row: Product) {
-  editDialog.value = true;
-  clickedRow.value = row;
-}
-
+/**
+ * Show delete dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
 function showDeleteDialog() {
   deleteDialog.value = true;
 }
 
+/**
+ * Send delete product request
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
 function deleteProduct() {
   new ApiRequester<DeleteProductRequest, DeleteProductResponse>().call(
     "deleteProduct",

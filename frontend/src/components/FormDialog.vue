@@ -43,6 +43,17 @@ import BaseButton from "@/atoms/BaseButton.vue";
 import { UI } from "@/constants/UI";
 
 const emit = defineEmits();
+
+const visibility = defineModel("visibility", {
+  type: Boolean,
+  default: false,
+});
+
+const formData = defineModel("formData", {
+  type: Object,
+  default: {},
+});
+
 defineProps({
   title: {
     type: String,
@@ -50,16 +61,14 @@ defineProps({
     default: "",
   },
 });
-const visibility = defineModel("visibility", {
-  type: Boolean,
-  default: false,
-});
-const formData = defineModel("formData", {
-  type: Object,
-  default: {},
-});
 
-function close() {
+/**
+ * Close dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function close(): void {
   visibility.value = false;
 }
 </script>

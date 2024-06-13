@@ -11,6 +11,14 @@ import { worker } from "@/mocks/browser";
 
 if (import.meta.env.DEV) {
   // development mode
-  worker.start();
+  worker.start({
+    onUnhandledRequest: (req) => {
+      // Ignore requests to node_modules
+      if (req.url.startsWith("/node_modules/")) {
+        return;
+      }
+      console.log(`Found an unhandled ${req.method} request to ${req.url}`);
+    },
+  });
 }
 </script>

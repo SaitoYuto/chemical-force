@@ -1,15 +1,14 @@
 import { Customer } from "@/interfaces/Common/Customer";
 import { Product } from "@/interfaces/Common/Product";
 import { GetUserDealResponse } from "@/interfaces/Responses/GetUserDeal";
-import { HttpResponse } from "msw";
 import Chance from "chance";
 
 const chance = new Chance();
 
-export default HttpResponse.json({
+export const getUserDealResponse = {
   customers: generateCustomer(),
   products: generateProduct(),
-} as GetUserDealResponse);
+} as GetUserDealResponse;
 
 /**
  * Generate random customer data

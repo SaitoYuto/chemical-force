@@ -1,11 +1,10 @@
 import Chance from "chance";
 import { Area } from "@/interfaces/Common/Area";
 import { GetAreaResponse } from "@/interfaces/Responses/GetArea";
-import { HttpResponse } from "msw";
 
-export default HttpResponse.json({
+export const getAreaResponse = {
   areas: generateArea(),
-} as GetAreaResponse);
+} as GetAreaResponse;
 
 /**
  * Generate random area data
