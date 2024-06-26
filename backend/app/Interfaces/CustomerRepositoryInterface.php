@@ -11,6 +11,7 @@ interface CustomerRepositoryInterface
 
     /**
      * @param string $customerId
+     * @return int updated number
      */
     public function updateById($customerId);
 

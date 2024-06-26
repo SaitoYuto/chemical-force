@@ -11,6 +11,7 @@ interface ProductRepositoryInterface
 
     /**
      * @param string $productId
+     * @return int updated number
      */
     public function updateById($productId);
 

@@ -9,7 +9,7 @@ use App\Http\Responses\DeleteProductResponse;
 use App\Http\Responses\ErrorResponse;
 use App\Interfaces\ProductRepositoryInterface;
 use Exception;
-use \Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class DeleteProductController extends Controller
 {

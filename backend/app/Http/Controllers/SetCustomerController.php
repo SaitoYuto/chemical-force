@@ -9,7 +9,7 @@ use App\Http\Responses\SetCustomerResponse;
 use App\Http\Responses\ErrorResponse;
 use App\Interfaces\CustomerRepositoryInterface;
 use Exception;
-use \Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 
 class SetCustomerController extends Controller
 {
