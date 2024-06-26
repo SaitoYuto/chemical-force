@@ -53,7 +53,7 @@ import ApiRequester from "@/utils/ApiRequester";
 const clickedRow = ref<Product>({
   id: "",
   name: "",
-  desc: "",
+  description: "",
   price: 0,
   volume: 0,
   unit: "",
@@ -93,13 +93,13 @@ function updateProduct(): void {
     {
       id: "",
       name: "",
-      desc: "",
+      description: "",
       price: 0,
       volume: 0,
       unit: "",
     },
     (response) => {
-      console.log(response.id);
+      console.log(response.updated);
       editDialog.value = false;
     },
     (apiError) => {
@@ -129,7 +129,7 @@ function deleteProduct() {
     "deleteProduct",
     { id: clickedRow.value.id },
     (response) => {
-      console.log(response.id);
+      console.log(response.deleted);
       deleteDialog.value = false;
     },
     (apiError) => {

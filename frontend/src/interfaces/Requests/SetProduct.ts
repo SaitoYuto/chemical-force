@@ -6,7 +6,7 @@
 export interface SetProductRequest {
   id: string;
   name: string;
-  desc: string;
+  description: string;
   price: number;
   volume: number;
   unit: string;

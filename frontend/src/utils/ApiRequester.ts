@@ -5,6 +5,7 @@ import axios, {
 } from "axios";
 import type { ApiCommonParam } from "@/interfaces/Requests/ApiCommonParam";
 import type { ApiErrorData } from "@/interfaces/Responses/ApiErrorData";
+import { user } from "@/stores/user";
 
 /**
  * API Request Base class
@@ -27,7 +28,7 @@ export default class ApiRequester<P, R> {
   get baseUrl(): string {
     const endpoint = import.meta.env.DEV
       ? location.origin
-      : process.env.BASE_URL;
+      : import.meta.env.VITE_BASE_URL;
     return endpoint + "/api/";
   }
 
@@ -56,7 +57,12 @@ export default class ApiRequester<P, R> {
     onError?: (responseData: ApiErrorData) => void
   ): Promise<R> {
     const url = this.baseUrl + name;
+    const token = user().getToken;
     const config: AxiosRequestConfig = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: user().getToken ? `Bearer ${token}` : undefined,
+      },
       timeout: this.timeout,
     };
     const requestParam = this.buildParam(param);

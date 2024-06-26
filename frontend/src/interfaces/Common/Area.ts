@@ -7,5 +7,6 @@ export interface Area {
   id: string;
   name: string;
   depot: string;
-  salesTarget: number;
+  sales_target: number;
+  manager_id: string;
 }

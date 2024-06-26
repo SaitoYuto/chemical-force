@@ -4,5 +4,5 @@
  * @author Yuto Saito
  */
 export interface DeleteCustomerResponse {
-  id: string;
+  deleted: number;
 }

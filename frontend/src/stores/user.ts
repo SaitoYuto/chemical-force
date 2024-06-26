@@ -9,8 +9,7 @@ export const user = defineStore("user", {
       id: "",
       name: "",
       token: "",
-      supervisorAuth: false,
-      chiefManagerAuth: false,
+      supervisorId: "",
     };
   },
   getters: {
@@ -23,11 +22,11 @@ export const user = defineStore("user", {
     getFirstName: (state): string => {
       return state.name.substring(0, state.name.indexOf(" "));
     },
-    isSupervisor: (state): boolean => {
-      return state.supervisorAuth;
+    getToken: (state): string => {
+      return state.token;
     },
-    isChiefManager: (state): boolean => {
-      return state.chiefManagerAuth;
+    isSupervisor: (state): boolean => {
+      return state.id == state.supervisorId;
     },
     isLoggedIn: (state): boolean => {
       return (
@@ -45,18 +44,15 @@ export const user = defineStore("user", {
     setToken(token: string): void {
       this.token = token;
     },
-    setSupervisorAuth(supervisorAuth: boolean): void {
-      this.supervisorAuth = supervisorAuth;
+    setSupervisorId(supervisorId: string): void {
+      this.supervisorId = supervisorId;
     },
-    setChiefManagerAuth(chiefManagerAuth: boolean): void {
-      this.chiefManagerAuth = chiefManagerAuth;
-    },
+
     clear(): void {
       this.setId("");
       this.setName("");
       this.setToken("");
-      this.setSupervisorAuth(false);
-      this.setChiefManagerAuth(false);
+      this.setSupervisorId("");
     },
   },
   persist: {

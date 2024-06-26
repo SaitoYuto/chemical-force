@@ -4,5 +4,5 @@
  * @author Yuto Saito
  */
 export interface GetAreaRequest {
-  userId: string;
+  id: string;
 }

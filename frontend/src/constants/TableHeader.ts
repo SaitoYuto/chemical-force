@@ -16,12 +16,13 @@ export const CUSTOMER_HEADER: VDataTable["$props"]["headers"] = [
   { key: "honorific", value: "honorific", title: "Honorific" } as const,
   {
     key: "fullName",
-    value: (customer: Customer) => `${customer.firstName} ${customer.lastName}`,
+    value: (customer: Customer) =>
+      `${customer.first_name} ${customer.last_name}`,
     title: "Name",
   } as const,
-  { key: "houseNo", value: "houseNo", title: "House No" } as const,
+  { key: "house_number", value: "house_number", title: "House No" } as const,
   { key: "street", value: "street", title: "Street" } as const,
-  { key: "accountNo", value: "accountNo", title: "Account No" } as const,
+  { key: "account", value: "account", title: "Account No" } as const,
   { key: "actions" } as const,
 ] as const;
 
@@ -36,7 +37,12 @@ export const PRODUCT_HEADER: VDataTable["$props"]["headers"] = [
     value: "name",
     title: "Name",
   } as const,
-  { key: "desc", value: "desc", title: "Description", width: "60%" } as const,
+  {
+    key: "description",
+    value: "description",
+    title: "Description",
+    width: "60%",
+  } as const,
   { key: "price", value: "price", title: "Price(£)" } as const,
   {
     key: "volume",

@@ -7,6 +7,5 @@ export interface LoginResponse {
   id: string;
   name: string;
   token: string;
-  isSupervisor: boolean;
-  isChiefManager: boolean;
+  supervisor_id: string;
 }

@@ -6,9 +6,9 @@
 export interface Customer {
   id: string;
   honorific: string;
-  firstName: string;
-  lastName: string;
-  houseNo: string;
+  first_name: string;
+  last_name: string;
+  house_number: string;
   street: string;
-  accountNo: string;
+  account: string;
 }

@@ -4,5 +4,5 @@
  * @author Yuto Saito
  */
 export interface SetCustomerResponse {
-  id: string;
+  updated: number;
 }

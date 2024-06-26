@@ -38,7 +38,7 @@ onMounted(() => {
   new ApiRequester<GetInformationRequest, GetInformationResponse>().call(
     "getInformation",
     {
-      userId: user().getId,
+      id: user().getId,
     },
     (response) => {
       infos.value = response.information;

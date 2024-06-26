@@ -19,7 +19,7 @@ function generateArea(): Area[] {
       id: chance.string({ length: 8, alpha: true, numeric: true }),
       name: chance.city(),
       depot: chance.province(),
-      salesTarget: chance.natural({ min: 100, max: 1500 }),
+      sales_target: chance.natural({ min: 100, max: 1500 }),
     } as Area);
   }
   return areas;

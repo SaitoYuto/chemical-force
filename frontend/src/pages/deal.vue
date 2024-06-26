@@ -45,7 +45,7 @@ onMounted(() => {
   new ApiRequester<GetUserDealRequest, GetUserDealResponse>().call(
     "getUserDeal",
     {
-      userId: user().getId,
+      id: user().getId,
     },
     (response) => {
       customers.value = response.customers;

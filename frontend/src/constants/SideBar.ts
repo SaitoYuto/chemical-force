@@ -19,6 +19,6 @@ export const SIDE_BAR = [
     path: "/team",
     icon: UI.ICON.TEAM,
     title: "Team",
-    visibility: user().supervisorAuth,
+    visibility: user().isSupervisor,
   },
 ];

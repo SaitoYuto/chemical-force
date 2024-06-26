@@ -34,7 +34,7 @@ const userStore = user();
 const loginForm = ref();
 const id = ref("");
 const password = ref("");
-let loginFailure = ref(false);
+const loginFailure = ref(false);
 
 /**
  * login
@@ -57,6 +57,7 @@ async function login() {
       userStore.setId(response.id);
       userStore.setName(response.name);
       userStore.setToken(response.token);
+      userStore.setSupervisorId(response.supervisor_id);
       router.push("/");
     },
     (apiError) => {

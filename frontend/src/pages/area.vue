@@ -14,8 +14,8 @@
                   cover
                   src="https://picsum.photos/500/300?image=43"
                 ></v-img>
-                <v-card-text v-if="userStore.isChiefManager">{{
-                  "SALES TARGET: " + area.salesTarget
+                <v-card-text v-if="area.manager_id == userStore.getId">{{
+                  "SALES TARGET: " + area.sales_target
                 }}</v-card-text>
               </v-card>
             </v-col>
@@ -43,7 +43,7 @@ onMounted(() => {
   new ApiRequester<GetAreaRequest, GetAreaResponse>().call(
     "getArea",
     {
-      userId: userStore.getId,
+      id: userStore.getId,
     },
     (response) => {
       areas.value = response.areas;

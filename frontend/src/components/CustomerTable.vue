@@ -53,11 +53,11 @@ import ApiRequester from "@/utils/ApiRequester";
 const clickedRow = ref<Customer>({
   id: "",
   honorific: "",
-  firstName: "",
-  lastName: "",
-  houseNo: "",
+  first_name: "",
+  last_name: "",
+  house_number: "",
   street: "",
-  accountNo: "",
+  account: "",
 });
 const editDialog = ref(false);
 const deleteDialog = ref(false);
@@ -94,14 +94,14 @@ function updateCustomer(): void {
     {
       id: clickedRow.value.id,
       honorific: clickedRow.value.honorific,
-      firstName: clickedRow.value.firstName,
-      lastName: clickedRow.value.lastName,
-      houseNo: clickedRow.value.houseNo,
+      first_name: clickedRow.value.first_name,
+      last_name: clickedRow.value.last_name,
+      house_number: clickedRow.value.house_number,
       street: clickedRow.value.street,
-      accountNo: clickedRow.value.accountNo,
+      account: clickedRow.value.account,
     },
     (response) => {
-      console.log(response.id);
+      console.log(response.updated);
       editDialog.value = false;
     },
     (apiError) => {
@@ -131,7 +131,7 @@ function deleteCustomer(): void {
     "deleteCustomer",
     { id: clickedRow.value.id },
     (response) => {
-      console.log(response.id);
+      console.log(response.deleted);
       deleteDialog.value = false;
     },
     (apiError) => {
