@@ -5,6 +5,7 @@
     :label="label"
     :rows="rows"
     :rules="[isRequired]"
+    :type="type"
     density="compact"
     variant="outlined"
     v-model="input"
@@ -32,6 +33,11 @@ defineProps({
     type: String,
     required: false,
     default: "1",
+  },
+  type: {
+    type: String,
+    required: false,
+    default: "text",
   },
 });
 

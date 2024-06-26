@@ -10,6 +10,7 @@
       <RequiredTextField label="User ID" v-model:input="id"></RequiredTextField>
       <RequiredTextField
         label="Password"
+        type="password"
         v-model:input="password"
       ></RequiredTextField>
       <p id="login-failure" class="text-center" v-if="loginFailure">
