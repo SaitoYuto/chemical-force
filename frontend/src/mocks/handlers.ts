@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw";
 import { deleteCustomerResponse } from "@/mocks/api/deleteCustomer";
 import { deleteProductResponse } from "@/mocks/api/deleteProduct";
+import { errorResponse } from "@/mocks/api/errorResponse";
 import { getAreaResponse } from "@/mocks/api/getArea";
 import { getInformationResponse } from "@/mocks/api/getInformation";
 import { getUserDealResponse } from "@/mocks/api/getUserDeal";
@@ -11,6 +12,7 @@ import { setProductResponse } from "@/mocks/api/setProduct";
 export const handlers = [
   http.post("/api/deleteCustomer", () => {
     return HttpResponse.json(deleteCustomerResponse);
+    // return HttpResponse.json(errorResponse, { status: 500 });
   }),
   http.post("/api/deleteProduct", () => {
     return HttpResponse.json(deleteProductResponse);
