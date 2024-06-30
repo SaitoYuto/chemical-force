@@ -22,7 +22,7 @@ export const CUSTOMER_HEADER: VDataTable["$props"]["headers"] = [
   } as const,
   { key: "house_number", value: "house_number", title: "House No" } as const,
   { key: "street", value: "street", title: "Street" } as const,
-  { key: "account", value: "account", title: "Account No" } as const,
+  { key: "account", value: "account", title: "Account" } as const,
   { key: "actions" } as const,
 ] as const;
 
