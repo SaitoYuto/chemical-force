@@ -1,6 +1,6 @@
 <template>
-  <v-dialog v-model="visibility" class="pa-6" max-width="300">
-    <v-card>
+  <v-dialog v-model="visibility" max-width="500">
+    <v-card :title="title">
       <v-card-text class="text-center">
         {{ text }}
       </v-card-text>
@@ -25,11 +25,9 @@
 import BaseButton from "@/atoms/BaseButton.vue";
 import { UI } from "@/constants/UI";
 
-const emit = defineEmits();
-
-const visibility = defineModel("visibility", {
-  type: Boolean,
-  default: false,
+defineExpose({
+  open,
+  close,
 });
 
 defineProps({
@@ -37,7 +35,28 @@ defineProps({
     type: String,
     required: true,
   },
+  title: {
+    type: String,
+    required: false,
+    default: "",
+  },
 });
+
+const emit = defineEmits();
+const visibility = defineModel("visibility", {
+  type: Boolean,
+  default: false,
+});
+
+/**
+ * Open dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function open(): void {
+  visibility.value = true;
+}
 
 /**
  * Close dialog

@@ -14,8 +14,8 @@
               <v-text-field
                 v-model="formData[key]"
                 :label="key.toString().toUpperCase()"
-                :readonly="key.toString() === 'id' ? true : false"
-                :disabled="key.toString() === 'id' ? true : false"
+                :readonly="key.toString() === 'id'"
+                :disabled="key.toString() === 'id'"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -29,7 +29,7 @@
           @click="close"
         ></BaseButton>
         <BaseButton
-          :text="UI.LABEL.UPDATE"
+          :text="UI.LABEL.OK"
           :block="false"
           @click="emit('update')"
         ></BaseButton>
@@ -42,16 +42,9 @@
 import BaseButton from "@/atoms/BaseButton.vue";
 import { UI } from "@/constants/UI";
 
-const emit = defineEmits();
-
-const visibility = defineModel("visibility", {
-  type: Boolean,
-  default: false,
-});
-
-const formData = defineModel("formData", {
-  type: Object,
-  default: {},
+defineExpose({
+  open,
+  close,
 });
 
 defineProps({
@@ -61,6 +54,24 @@ defineProps({
     default: "",
   },
 });
+
+const emit = defineEmits();
+const formData = ref<any>(null);
+const visibility = defineModel("visibility", {
+  type: Boolean,
+  default: false,
+});
+
+/**
+ * Open dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function open<T>(data: T) {
+  formData.value = data;
+  visibility.value = true;
+}
 
 /**
  * Close dialog
