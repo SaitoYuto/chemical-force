@@ -2,11 +2,7 @@
   <v-navigation-drawer expand-on-hover rail>
     <v-list>
       <template>
-        <BaseDialog
-          v-model:visibility="logoutDialog"
-          :text="MESSAGE.ENQUIRY.LOGOUT"
-          @ok="logout"
-        ></BaseDialog>
+        <BaseDialog ref="logoutDialog" @ok="logout"></BaseDialog>
       </template>
 
       <v-list-item
@@ -35,12 +31,13 @@
 
 <script lang="ts" setup>
 import { MESSAGE } from "@/constants/Message";
+import BaseDialog from "@/components/BaseDialog.vue";
 import { SIDE_BAR } from "@/constants/SideBar";
 import { UI } from "@/constants/UI";
 import { user } from "@/stores/user";
+const logoutDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 const router = useRouter();
 const userStore = user();
-const logoutDialog = ref(false);
 
 /**
  * Show logout dialog
@@ -49,7 +46,7 @@ const logoutDialog = ref(false);
  * @author Yuto Saito
  */
 function showLogoutDialog(): void {
-  logoutDialog.value = true;
+  logoutDialog.value?.open([MESSAGE.ENQUIRY.LOGOUT]);
 }
 
 /**

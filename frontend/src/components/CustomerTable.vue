@@ -6,11 +6,8 @@
         v-model:formData="clickedRow"
         @update="updateCustomer"
       ></FormDialog>
-      <BaseDialog
-        ref="deleteDialog"
-        :text="MESSAGE.ENQUIRY.DELETE"
-        @ok="deleteCustomer"
-      ></BaseDialog>
+      <BaseDialog ref="deleteDialog" @ok="deleteCustomer"></BaseDialog>
+      <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
     </template>
     <template v-slot:headers="{ columns }">
       <tr>
@@ -58,8 +55,6 @@ defineProps({
   },
 });
 
-const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
-const deleteDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 // Initial clicked customer data
 const clickedRow = ref<Customer>({
   id: "",
@@ -70,6 +65,9 @@ const clickedRow = ref<Customer>({
   street: "",
   account: "",
 });
+const deleteDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
 
 /**
  * Show edit dialog
@@ -101,11 +99,11 @@ function updateCustomer(): void {
       street: clickedRow.value.street,
       account: clickedRow.value.account,
     },
-    (response) => {
+    () => {
       formDialog.value?.close();
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      errorDialog.value?.open(apiError.errors);
     }
   );
 }
@@ -117,7 +115,7 @@ function updateCustomer(): void {
  * @author Yuto Saito
  */
 function showDeleteDialog(): void {
-  deleteDialog.value?.open();
+  deleteDialog.value?.open([MESSAGE.ENQUIRY.DELETE]);
 }
 
 /**
@@ -130,11 +128,12 @@ function deleteCustomer(): void {
   new ApiRequester<DeleteCustomerRequest, DeleteCustomerResponse>().call(
     "deleteCustomer",
     { id: clickedRow.value.id },
-    (response) => {
+    () => {
       deleteDialog.value?.close();
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      deleteDialog.value?.close();
+      errorDialog.value?.open(apiError.errors);
     }
   );
 }

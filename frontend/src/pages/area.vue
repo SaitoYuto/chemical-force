@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
       <v-card>
         <v-container fluid>
           <v-row dense>
@@ -27,14 +28,16 @@
 </template>
 
 <script lang="ts" setup>
+import BaseDialog from "@/components/BaseDialog.vue";
 import { Area } from "@/interfaces/Common/Area";
 import { GetAreaResponse } from "@/interfaces/Responses/GetArea";
 import { GetAreaRequest } from "@/interfaces/Requests/GetArea";
 import { user } from "@/stores/user";
 import ApiRequester from "@/utils/ApiRequester";
 
-const userStore = user();
 const areas = ref([] as Area[]);
+const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+const userStore = user();
 
 /**
  * Request area data on mounted
@@ -49,7 +52,7 @@ onMounted(() => {
       areas.value = response.areas;
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      errorDialog.value?.open(apiError.errors);
     }
   );
 });

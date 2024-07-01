@@ -1,6 +1,7 @@
 <template>
   <v-app>
     <v-main>
+      <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
       <v-toolbar :color="UI.COLOR.INDIGO" image="@/assets/background.svg">
         <template v-slot:extension>
           <v-tabs v-model="tab" align-tabs="title">
@@ -26,6 +27,7 @@
 </template>
 
 <script lang="ts" setup>
+import BaseDialog from "@/components/BaseDialog.vue";
 import { UI } from "@/constants/UI";
 import { Customer } from "@/interfaces/Common/Customer";
 import { Product } from "@/interfaces/Common/Product";
@@ -34,9 +36,10 @@ import { GetUserDealRequest } from "@/interfaces/Requests/GetUserDeal";
 import { user } from "@/stores/user";
 import ApiRequester from "@/utils/ApiRequester";
 
-const tab = ref("customer");
+const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 const customers = ref([] as Customer[]);
 const products = ref([] as Product[]);
+const tab = ref("customer");
 
 /**
  * Request user deal data on mounted
@@ -52,7 +55,7 @@ onMounted(() => {
       products.value = response.products;
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      errorDialog.value?.open(apiError.errors);
     }
   );
 });
