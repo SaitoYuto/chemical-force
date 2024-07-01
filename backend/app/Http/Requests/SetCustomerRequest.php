@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class SetCustomerRequest extends FormRequest
 {
@@ -28,7 +31,17 @@ class SetCustomerRequest extends FormRequest
             'last_name' => 'required|string',
             'house_number' => 'required|string',
             'street' => 'required|string',
-            'account' => 'required|string',
+            'account' => 'required|numeric',
         ];
+    }
+
+    /**
+     * Response when validation failed
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors()->all(),
+        ], Response::HTTP_BAD_REQUEST));
     }
 }
