@@ -1,4 +1,5 @@
 <template>
+  <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
   <InformationCard
     class="ml-auto"
     v-for="info in infos"
@@ -19,12 +20,14 @@
 <script lang="ts" setup>
 import InformationCard from "@/atoms/InformationCard.vue";
 import InformationDetail from "@/atoms/InformationDetail.vue";
+import BaseDialog from "@/components/BaseDialog.vue";
 import { Information } from "@/interfaces/Common/Information";
 import { GetInformationRequest } from "@/interfaces/Requests/GetInformation";
 import { GetInformationResponse } from "@/interfaces/Responses/GetInformation";
 import { user } from "@/stores/user";
 import ApiRequester from "@/utils/ApiRequester";
 
+const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 const infos = ref([] as Information[]);
 const selectedInfo = ref<Information>();
 const visible = ref(false);
@@ -44,7 +47,7 @@ onMounted(() => {
       infos.value = response.information;
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      errorDialog.value?.open(apiError.errors);
     }
   );
 });

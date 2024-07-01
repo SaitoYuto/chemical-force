@@ -6,11 +6,8 @@
         v-model:formData="clickedRow"
         @update="updateProduct"
       ></FormDialog>
-      <BaseDialog
-        ref="deleteDialog"
-        :text="MESSAGE.ENQUIRY.DELETE"
-        @ok="deleteProduct"
-      ></BaseDialog>
+      <BaseDialog ref="deleteDialog" @ok="deleteProduct"></BaseDialog>
+      <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
     </template>
     <template v-slot:headers="{ columns }">
       <tr>
@@ -58,8 +55,6 @@ defineProps({
   },
 });
 
-const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
-const deleteDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 // Initial clicked product data
 const clickedRow = ref<Product>({
   id: "",
@@ -69,6 +64,9 @@ const clickedRow = ref<Product>({
   volume: 0,
   unit: "",
 });
+const deleteDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
+const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
 
 /**
  * Show edit dialog
@@ -99,11 +97,11 @@ function updateProduct(): void {
       volume: clickedRow.value.volume,
       unit: clickedRow.value.unit,
     },
-    (response) => {
+    () => {
       formDialog.value?.close();
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      errorDialog.value?.open(apiError.errors);
     }
   );
 }
@@ -115,7 +113,7 @@ function updateProduct(): void {
  * @author Yuto Saito
  */
 function showDeleteDialog() {
-  deleteDialog.value?.open();
+  deleteDialog.value?.open([MESSAGE.ENQUIRY.DELETE]);
 }
 
 /**
@@ -128,11 +126,11 @@ function deleteProduct() {
   new ApiRequester<DeleteProductRequest, DeleteProductResponse>().call(
     "deleteProduct",
     { id: clickedRow.value.id },
-    (response) => {
+    () => {
       deleteDialog.value?.close();
     },
     (apiError) => {
-      console.log(...apiError.errors);
+      errorDialog.value?.open(apiError.errors);
     }
   );
 }
