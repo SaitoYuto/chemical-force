@@ -33,7 +33,12 @@ class CustomerRepository implements CustomerRepositoryInterface
     {
         return Customer::where('id', $customer['id'])
             ->update([
-                'honorific' => $customer['honorific'], 'first_name' => $customer['first_name'], 'last_name' => $customer['last_name'], 'house_number' => $customer['house_number'], 'street' => $customer['street'], 'account' => $customer['account']
+                'honorific' => $customer['honorific'],
+                'first_name' => $customer['first_name'],
+                'last_name' => $customer['last_name'],
+                'house_number' => $customer['house_number'],
+                'street' => $customer['street'],
+                'account' => $customer['account']
             ]);
     }
 

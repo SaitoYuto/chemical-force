@@ -1,7 +1,7 @@
 <template>
   <v-card width="250" variant="text">
     <v-img height="100" src="@/assets/logo.svg"></v-img>
-    <v-card-text id="welcome-text"> {{ getGreedMessage() }} </v-card-text>
+    <v-card-text id="welcome-text"> {{ getGreetMessage() }} </v-card-text>
   </v-card>
 </template>
 
@@ -9,26 +9,26 @@
 import { useUserStore } from "@/stores/user";
 
 /**
- * Get greed message depends on current hour
+ * Get greet message depends on current hour
  *
- * @returns {string} greed message
+ * @returns {string} greet message
  * @author Yuto Saito
  */
-function getGreedMessage(): string {
+function getGreetMessage(): string {
   const hour = new Date().getHours();
-  let greed = "";
-  if (hour >= 5 && hour <= 11) {
-    greed = "Good morning";
-  } else if (hour >= 12 && hour <= 16) {
-    greed = "Good afternoon";
-  } else if (hour >= 17 && hour <= 20) {
-    greed = "Good evening";
-  } else if (hour >= 21 && hour <= 24) {
-    greed = "Good night";
+  let greet = "";
+  if (hour >= 5 && hour < 12) {
+    greet = "Good morning";
+  } else if (hour >= 12 && hour < 17) {
+    greet = "Good afternoon";
+  } else if (hour >= 17 && hour < 21) {
+    greet = "Good evening";
+  } else if (hour >= 21 && hour < 24) {
+    greet = "Good night";
   } else {
-    greed = "Welcome";
+    greet = "Welcome";
   }
-  return greed + " " + useUserStore().getFirstName + "!";
+  return greet + " " + useUserStore().getFirstName + "!";
 }
 </script>
 

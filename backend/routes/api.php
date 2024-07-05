@@ -17,7 +17,6 @@ Route::post('/addCustomer', AddCustomerController::class);
 Route::post('/addProduct', AddProductController::class);
 Route::post('/deleteCustomer', DeleteCustomerController::class)->middleware('auth:sanctum');
 Route::post('/deleteProduct', DeleteProductController::class)->middleware('auth:sanctum');
-Route::post('/deleteProduct', DeleteProductController::class)->middleware('auth:sanctum');
 Route::post('/getArea', GetAreaController::class)->middleware('auth:sanctum');
 Route::post('/getCustomer', GetCustomerController::class);
 Route::post('/getInformation', GetInformationController::class)->middleware('auth:sanctum');
