@@ -7,17 +7,29 @@ use App\Models\Product;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+
     /**
-     * @param string $salesRepId
+     * @param array $product
+     * @return Product product model
      */
-    public function findBySalesRepId($salesRepId)
+    public function create($product)
     {
+        return Product::create([
+            "id" => $product["id"],
+            'name' => $product['name'],
+            'description' => $product['description'],
+            'price' => $product['price'],
+            'volume' => $product['volume'],
+            'unit' => $product['unit'],
+            'sales_rep_id' => $product["sales_rep_id"]
+        ]);
     }
 
     /**
      * @param array $product
+     * @return int updated num
      */
-    public function updateById($product)
+    public function update($product)
     {
         return Product::where('id', $product['id'])
             ->update([

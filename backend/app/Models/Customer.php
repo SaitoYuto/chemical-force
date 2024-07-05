@@ -14,4 +14,15 @@ class Customer extends Model
     protected $keyType = 'string';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'honorific',
+        'first_name',
+        'last_name',
+        'house_number',
+        'street',
+        'account',
+        'sales_rep_id'
+    ];
 }

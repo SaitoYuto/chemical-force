@@ -5,15 +5,16 @@ namespace App\Interfaces;
 interface ProductRepositoryInterface
 {
     /**
-     * @param string $salesRepId
-     */
-    public function findBySalesRepId($salesRepId);
-
-    /**
-     * @param string $productId
+     * @param array $product
      * @return int updated number
      */
-    public function updateById($productId);
+    public function create($product);
+
+    /**
+     * @param array $product
+     * @return int updated number
+     */
+    public function update($product);
 
     /**
      * @param string $productId

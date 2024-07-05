@@ -27,7 +27,7 @@ class SetCustomerController extends Controller
     {
         $validated = $request->validated();
         try {
-            $result = $this->customerRepRepository->updateById($validated);
+            $result = $this->customerRepRepository->update($validated);
             if (!$result) {
                 return new ErrorResponse(
                     [ErrorMessages::NO_RECORD_TO_UPDATE],

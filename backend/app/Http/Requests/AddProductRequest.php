@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetUserDealRequest extends FormRequest
+class AddProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,19 @@ class GetUserDealRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|string'
+            'id' => 'required|string',
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'volume' => 'required|numeric',
+            'unit' => 'required|string',
+            'sales_rep_id' => 'required|string',
         ];
     }
 
+    /**
+     * Response when validation failed
+     */
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
