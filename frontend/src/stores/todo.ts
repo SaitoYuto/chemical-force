@@ -1,13 +1,13 @@
 import { Todo } from "@/interfaces/Common/Todo";
+import { useLocalStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-
 /**
  * Todo store.
  */
 export const todo = defineStore("todo", {
   state: () => {
     return {
-      todo: [] as Todo[],
+      todo: useLocalStorage("todo", [] as Todo[]),
     };
   },
   getters: {
@@ -22,8 +22,5 @@ export const todo = defineStore("todo", {
     deleteById(id: string): void {
       this.todo = this.todo.filter((el) => el.id !== id);
     },
-  },
-  persist: {
-    storage: localStorage,
   },
 });

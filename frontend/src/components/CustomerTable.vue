@@ -1,13 +1,14 @@
 <template>
-  <v-data-table :headers="CUSTOMER_HEADER" :items="customerData">
+  <v-data-table :headers="CUSTOMER_HEADER" :items="customerStore.getCustomers">
     <template v-slot:top>
+      <FormDialog ref="addDialog" mode="add" @ok="addCustomer"></FormDialog>
       <FormDialog
-        ref="formDialog"
-        v-model:formData="clickedRow"
-        @update="updateCustomer"
+        ref="editDialog"
+        mode="edit"
+        @ok="updateCustomer"
       ></FormDialog>
       <BaseDialog ref="deleteDialog" @ok="deleteCustomer"></BaseDialog>
-      <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
+      <BaseButton text="Register" @click="showAddDialog"></BaseButton>
     </template>
     <template v-slot:headers="{ columns }">
       <tr>
@@ -22,52 +23,52 @@
       <v-icon
         :icon="UI.ICON.PENCIL"
         class="me-6"
-        @click="showFormDialog(items.item)"
+        @click="showEditDialog(items.item)"
       >
       </v-icon>
       <v-icon
         :icon="UI.ICON.DELETE"
         class="ml-6"
-        @click="showDeleteDialog()"
+        @click="showDeleteDialog(items.item.id)"
       ></v-icon>
     </template>
   </v-data-table>
 </template>
 
 <script lang="ts" setup>
+import BaseButton from "@/atoms/BaseButton.vue";
 import FormDialog from "@/components/FormDialog.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import { MESSAGE } from "@/constants/Message";
 import { CUSTOMER_HEADER } from "@/constants/TableHeader";
 import { UI } from "@/constants/UI";
 import { Customer } from "@/interfaces/Common/Customer";
-import { DeleteCustomerRequest } from "@/interfaces/Requests/DeleteCustomer";
-import { SetCustomerRequest } from "@/interfaces/Requests/SetCustomer";
-import { DeleteCustomerResponse } from "@/interfaces/Responses/DeleteCustomer";
-import { SetCustomerResponse } from "@/interfaces/Responses/SetCustomer";
-import ApiRequester from "@/utils/ApiRequester";
+import { useCustomerStore } from "@/stores/customer";
 
-defineProps({
-  customerData: {
-    type: Array as PropType<Customer[]>,
-    required: false,
-    default: [],
-  },
-});
-
-// Initial clicked customer data
-const clickedRow = ref<Customer>({
-  id: "",
-  honorific: "",
-  first_name: "",
-  last_name: "",
-  house_number: "",
-  street: "",
-  account: "",
-});
+const customerStore = useCustomerStore();
+customerStore.fetch();
+const clickedId = ref("");
+const addDialog = ref<InstanceType<typeof FormDialog> | null>(null);
 const deleteDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
-const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
-const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
+const editDialog = ref<InstanceType<typeof FormDialog> | null>(null);
+
+/**
+ * Show add dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showAddDialog(): void {
+  addDialog.value?.open({
+    id: "",
+    honorific: "",
+    first_name: "",
+    last_name: "",
+    house_number: "",
+    street: "",
+    account: "",
+  });
+}
 
 /**
  * Show edit dialog
@@ -76,9 +77,31 @@ const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
  * @returns {void}
  * @author Yuto Saito
  */
-function showFormDialog(row: Customer): void {
-  formDialog.value?.open(row);
-  clickedRow.value = row;
+function showEditDialog(row: Customer): void {
+  // pass copy or row to delete reactivity
+  editDialog.value?.open({ ...row });
+}
+
+/**
+ * Show delete dialog
+ *
+ * @param {string} customer ID
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showDeleteDialog(customerId: string): void {
+  clickedId.value = customerId;
+  deleteDialog.value?.open([MESSAGE.ENQUIRY.DELETE]);
+}
+
+/**
+ * Send add customer request
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function addCustomer(data: Customer): void {
+  customerStore.add(data).then(addDialog.value?.close);
 }
 
 /**
@@ -87,35 +110,8 @@ function showFormDialog(row: Customer): void {
  * @returns {void}
  * @author Yuto Saito
  */
-function updateCustomer(): void {
-  new ApiRequester<SetCustomerRequest, SetCustomerResponse>().call(
-    "setCustomer",
-    {
-      id: clickedRow.value.id,
-      honorific: clickedRow.value.honorific,
-      first_name: clickedRow.value.first_name,
-      last_name: clickedRow.value.last_name,
-      house_number: clickedRow.value.house_number,
-      street: clickedRow.value.street,
-      account: clickedRow.value.account,
-    },
-    () => {
-      formDialog.value?.close();
-    },
-    (apiError) => {
-      errorDialog.value?.open(apiError.errors);
-    }
-  );
-}
-
-/**
- * Show delete dialog
- *
- * @returns {void}
- * @author Yuto Saito
- */
-function showDeleteDialog(): void {
-  deleteDialog.value?.open([MESSAGE.ENQUIRY.DELETE]);
+function updateCustomer(data: Customer): void {
+  customerStore.update(data).then(editDialog.value?.close);
 }
 
 /**
@@ -125,16 +121,6 @@ function showDeleteDialog(): void {
  * @author Yuto Saito
  */
 function deleteCustomer(): void {
-  new ApiRequester<DeleteCustomerRequest, DeleteCustomerResponse>().call(
-    "deleteCustomer",
-    { id: clickedRow.value.id },
-    () => {
-      deleteDialog.value?.close();
-    },
-    (apiError) => {
-      deleteDialog.value?.close();
-      errorDialog.value?.open(apiError.errors);
-    }
-  );
+  customerStore.delete(clickedId.value).then(deleteDialog.value?.close);
 }
 </script>

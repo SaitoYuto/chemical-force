@@ -1,13 +1,10 @@
 <template>
-  <v-data-table :headers="PRODUCT_HEADER" :items="productData">
+  <v-data-table :headers="PRODUCT_HEADER" :items="productStore.getProducts">
     <template v-slot:top>
-      <FormDialog
-        ref="formDialog"
-        v-model:formData="clickedRow"
-        @update="updateProduct"
-      ></FormDialog>
+      <FormDialog ref="addDialog" mode="add" @ok="addProduct"></FormDialog>
+      <FormDialog ref="editDialog" mode="edit" @ok="updateProduct"></FormDialog>
       <BaseDialog ref="deleteDialog" @ok="deleteProduct"></BaseDialog>
-      <BaseDialog ref="errorDialog" :showOK="false"></BaseDialog>
+      <BaseButton text="Register" @click="showAddDialog"></BaseButton>
     </template>
     <template v-slot:headers="{ columns }">
       <tr>
@@ -22,51 +19,51 @@
       <v-icon
         :icon="UI.ICON.PENCIL"
         class="me-6"
-        @click="showFormDialog(items.item)"
+        @click="showEditDialog(items.item)"
       >
       </v-icon>
       <v-icon
         :icon="UI.ICON.DELETE"
         class="ml-6"
-        @click="showDeleteDialog()"
+        @click="showDeleteDialog(items.item.id)"
       ></v-icon>
     </template>
   </v-data-table>
 </template>
 
 <script lang="ts" setup>
+import BaseButton from "@/atoms/BaseButton.vue";
 import FormDialog from "@/components/FormDialog.vue";
 import BaseDialog from "@/components/BaseDialog.vue";
 import { MESSAGE } from "@/constants/Message";
 import { PRODUCT_HEADER } from "@/constants/TableHeader";
 import { UI } from "@/constants/UI";
 import { Product } from "@/interfaces/Common/Product";
-import { DeleteProductRequest } from "@/interfaces/Requests/DeleteProduct";
-import { SetProductRequest } from "@/interfaces/Requests/SetProduct";
-import { DeleteProductResponse } from "@/interfaces/Responses/DeleteProduct";
-import { SetProductResponse } from "@/interfaces/Responses/SetProduct";
-import ApiRequester from "@/utils/ApiRequester";
+import { product } from "@/stores/product";
 
-defineProps({
-  productData: {
-    type: Array as PropType<Product[]>,
-    required: false,
-    default: [],
-  },
-});
-
-// Initial clicked product data
-const clickedRow = ref<Product>({
-  id: "",
-  name: "",
-  description: "",
-  price: 0,
-  volume: 0,
-  unit: "",
-});
+const productStore = product();
+productStore.fetch();
+const clickedId = ref("");
+const addDialog = ref<InstanceType<typeof FormDialog> | null>(null);
 const deleteDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
-const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
-const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
+const editDialog = ref<InstanceType<typeof FormDialog> | null>(null);
+
+/**
+ * Show add dialog
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showAddDialog(): void {
+  addDialog.value?.open({
+    id: "",
+    name: "",
+    description: "",
+    price: 0,
+    volume: 0,
+    unit: "",
+  });
+}
 
 /**
  * Show edit dialog
@@ -75,9 +72,30 @@ const formDialog = ref<InstanceType<typeof FormDialog> | null>(null);
  * @returns {void}
  * @author Yuto Saito
  */
-function showFormDialog(row: Product): void {
-  formDialog.value?.open(row);
-  clickedRow.value = row;
+function showEditDialog(row: Product): void {
+  editDialog.value?.open({ ...row });
+}
+
+/**
+ * Show delete dialog
+ *
+ * @param {string} product ID
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function showDeleteDialog(productId: string) {
+  clickedId.value = productId;
+  deleteDialog.value?.open([MESSAGE.ENQUIRY.DELETE]);
+}
+
+/**
+ * Send add product request
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function addProduct(data: Product): void {
+  productStore.add(data).then(addDialog.value?.close);
 }
 
 /**
@@ -86,34 +104,8 @@ function showFormDialog(row: Product): void {
  * @returns {void}
  * @author Yuto Saito
  */
-function updateProduct(): void {
-  new ApiRequester<SetProductRequest, SetProductResponse>().call(
-    "setProduct",
-    {
-      id: clickedRow.value.id,
-      name: clickedRow.value.name,
-      description: clickedRow.value.description,
-      price: clickedRow.value.price,
-      volume: clickedRow.value.volume,
-      unit: clickedRow.value.unit,
-    },
-    () => {
-      formDialog.value?.close();
-    },
-    (apiError) => {
-      errorDialog.value?.open(apiError.errors);
-    }
-  );
-}
-
-/**
- * Show delete dialog
- *
- * @returns {void}
- * @author Yuto Saito
- */
-function showDeleteDialog() {
-  deleteDialog.value?.open([MESSAGE.ENQUIRY.DELETE]);
+function updateProduct(data: Product): void {
+  productStore.update(data).then(editDialog.value?.close);
 }
 
 /**
@@ -123,15 +115,6 @@ function showDeleteDialog() {
  * @author Yuto Saito
  */
 function deleteProduct() {
-  new ApiRequester<DeleteProductRequest, DeleteProductResponse>().call(
-    "deleteProduct",
-    { id: clickedRow.value.id },
-    () => {
-      deleteDialog.value?.close();
-    },
-    (apiError) => {
-      errorDialog.value?.open(apiError.errors);
-    }
-  );
+  productStore.delete(clickedId.value).then(deleteDialog.value?.close);
 }
 </script>

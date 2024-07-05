@@ -27,7 +27,7 @@ class SetProductController extends Controller
     {
         $validated = $request->validated();
         try {
-            $result = $this->productRepRepository->updateById($validated);
+            $result = $this->productRepRepository->update($validated);
             if (!$result) {
                 return new ErrorResponse(
                     [ErrorMessages::NO_RECORD_TO_UPDATE],

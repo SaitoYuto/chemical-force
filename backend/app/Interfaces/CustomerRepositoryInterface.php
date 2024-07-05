@@ -5,15 +5,16 @@ namespace App\Interfaces;
 interface CustomerRepositoryInterface
 {
     /**
-     * @param string $salesRepId
+     * @param array $customer
+     * @return Customer customer model
      */
-    public function findBySalesRepId($salesRepId);
+    public function create($customer);
 
     /**
-     * @param string $customerId
+     * @param array $customer
      * @return int updated number
      */
-    public function updateById($customerId);
+    public function update($customer);
 
     /**
      * @param string $customerId

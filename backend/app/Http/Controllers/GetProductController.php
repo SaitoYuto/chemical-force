@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\GetUserDealRequest;
-use App\Http\Responses\GetUserDealResponse;
+use App\Http\Requests\GetProductRequest;
+use App\Http\Responses\GetProductResponse;
 use App\Interfaces\SalesRepRepositoryInterface;
 use Exception;
 
-class GetUserDealController extends Controller
+class GetProductController extends Controller
 {
     private SalesRepRepositoryInterface $salesRepRepRepository;
 
@@ -20,13 +20,12 @@ class GetUserDealController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(GetUserDealRequest $request)
+    public function __invoke(GetProductRequest $request)
     {
         try {
             $validated = $request->validated();
-            $customers = $this->salesRepRepRepository->findCustomerById($validated['id']);
             $products = $this->salesRepRepRepository->findProductById($validated['id']);
-            return new GetUserDealResponse($customers, $products);
+            return new GetProductResponse($products);
         } catch (Exception $e) {
             return $this->handleException($e);
         }

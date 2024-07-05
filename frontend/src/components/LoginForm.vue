@@ -28,10 +28,10 @@ import { MESSAGE } from "@/constants/Message";
 import { LoginResponse } from "@/interfaces/Responses/Login";
 import { LoginRequest } from "@/interfaces/Requests/Login";
 import ApiRequester from "@/utils/ApiRequester";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 const router = useRouter();
-const userStore = user();
+const userStore = useUserStore();
 const loginForm = ref();
 const id = ref("");
 const password = ref("");
@@ -48,24 +48,24 @@ async function login() {
   if (!validResult.valid) {
     return;
   }
-  new ApiRequester<LoginRequest, LoginResponse>().call(
-    "login",
-    {
-      id: id.value,
-      password: password.value,
-    },
-    (response) => {
-      userStore.setId(response.id);
-      userStore.setName(response.name);
-      userStore.setToken(response.token);
-      userStore.setSupervisorId(response.supervisor_id);
-      router.push("/");
-    },
-    (apiError) => {
-      console.log(...apiError.errors);
-      loginFailure.value = true;
-    }
-  );
+  try {
+    const response = await new ApiRequester<LoginRequest, LoginResponse>().post(
+      "login",
+      {
+        id: id.value,
+        password: password.value,
+      }
+    );
+    userStore.$patch({
+      id: response.data.id,
+      name: response.data.name,
+      token: response.data.token,
+      supervisorId: response.data.supervisor_id,
+    });
+    router.push("/");
+  } catch {
+    loginFailure.value = true;
+  }
 }
 </script>
 

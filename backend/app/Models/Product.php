@@ -14,4 +14,14 @@ class Product extends Model
     protected $keyType = 'string';
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'id',
+        'name',
+        'description',
+        'price',
+        'volume',
+        'unit',
+        'sales_rep_id'
+    ];
 }

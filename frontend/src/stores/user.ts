@@ -1,14 +1,15 @@
 import { defineStore } from "pinia";
+import { useLocalStorage } from "@vueuse/core";
 
 /**
  * User store.
  */
-export const user = defineStore("user", {
+export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      id: "",
-      name: "",
-      token: "",
+      id: useLocalStorage("user_id", ""),
+      name: useLocalStorage("user_name", ""),
+      token: useLocalStorage("user_token", ""),
       supervisorId: "",
     };
   },
@@ -33,29 +34,5 @@ export const user = defineStore("user", {
         state.id.length > 0 && state.name.length > 0 && state.token.length > 0
       );
     },
-  },
-  actions: {
-    setId(id: string): void {
-      this.id = id;
-    },
-    setName(name: string): void {
-      this.name = name;
-    },
-    setToken(token: string): void {
-      this.token = token;
-    },
-    setSupervisorId(supervisorId: string): void {
-      this.supervisorId = supervisorId;
-    },
-
-    clear(): void {
-      this.setId("");
-      this.setName("");
-      this.setToken("");
-      this.setSupervisorId("");
-    },
-  },
-  persist: {
-    storage: localStorage,
   },
 });

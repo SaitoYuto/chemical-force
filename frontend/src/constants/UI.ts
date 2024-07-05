@@ -22,6 +22,7 @@ export const UI = {
   },
   LABEL: {
     CLOSE: "Close",
+    ERROR: "Error",
     OK: "OK",
     UPDATE: "Update",
   },

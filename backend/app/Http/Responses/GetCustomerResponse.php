@@ -5,7 +5,7 @@ namespace App\Http\Responses;
 use Illuminate\Contracts\Support\Responsable;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetUserDealResponse implements Responsable
+class GetCustomerResponse implements Responsable
 {
 
     /**
@@ -13,15 +13,9 @@ class GetUserDealResponse implements Responsable
      */
     private $customers;
 
-    /**
-     * @var array
-     */
-    private $products;
-
-    public function __construct($customers, $products)
+    public function __construct($customers)
     {
         $this->customers = $customers;
-        $this->products = $products;
     }
 
     /**
@@ -33,7 +27,7 @@ class GetUserDealResponse implements Responsable
     public function toResponse($request)
     {
         return response()->json(
-            ['customers' => $this->customers, 'products' => $this->products],
+            ['customers' => $this->customers],
             Response::HTTP_OK
         );
     }

@@ -6,7 +6,7 @@
 
 import { createRouter, createWebHistory } from "vue-router/auto";
 import { setupLayouts } from "virtual:generated-layouts";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,7 +17,7 @@ const router = createRouter({
  * Validate authentication
  */
 router.beforeEach((to) => {
-  if (to.meta.requiresAuth && !user().isLoggedIn) {
+  if (to.meta.requiresAuth && !useUserStore().isLoggedIn) {
     return {
       path: "/login",
       query: { redirect: to.fullPath },
