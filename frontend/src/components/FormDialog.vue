@@ -14,8 +14,8 @@
               <v-text-field
                 v-model="formData[key]"
                 :label="key.toString().toUpperCase()"
-                :readonly="key.toString() === 'id'"
-                :disabled="key.toString() === 'id'"
+                :readonly="key.toString() === 'id' && mode == 'edit'"
+                :disabled="key.toString() === 'id' && mode == 'edit'"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -28,11 +28,7 @@
           :block="false"
           @click="close"
         ></BaseButton>
-        <BaseButton
-          :text="UI.LABEL.OK"
-          :block="false"
-          @click="emit('update')"
-        ></BaseButton>
+        <BaseButton :text="UI.LABEL.OK" :block="false" @click="ok"></BaseButton>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -53,6 +49,10 @@ defineProps({
     required: false,
     default: "",
   },
+  mode: {
+    type: String as PropType<"add" | "edit">,
+    required: true,
+  },
 });
 
 const emit = defineEmits();
@@ -71,6 +71,16 @@ const visibility = defineModel("visibility", {
 function open<T>(data: T) {
   formData.value = data;
   visibility.value = true;
+}
+
+/**
+ * User admit the form
+ *
+ * @returns {void}
+ * @author Yuto Saito
+ */
+function ok(): void {
+  emit("ok", formData.value);
 }
 
 /**

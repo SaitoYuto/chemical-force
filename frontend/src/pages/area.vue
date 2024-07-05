@@ -32,29 +32,22 @@ import BaseDialog from "@/components/BaseDialog.vue";
 import { Area } from "@/interfaces/Common/Area";
 import { GetAreaResponse } from "@/interfaces/Responses/GetArea";
 import { GetAreaRequest } from "@/interfaces/Requests/GetArea";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 import ApiRequester from "@/utils/ApiRequester";
 
 const areas = ref([] as Area[]);
 const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
-const userStore = user();
+const userStore = useUserStore();
 
 /**
  * Request area data on mounted
  */
 onMounted(() => {
-  new ApiRequester<GetAreaRequest, GetAreaResponse>().call(
-    "getArea",
-    {
+  new ApiRequester<GetAreaRequest, GetAreaResponse>()
+    .post("getArea", {
       id: userStore.getId,
-    },
-    (response) => {
-      areas.value = response.areas;
-    },
-    (apiError) => {
-      errorDialog.value?.open(apiError.errors);
-    }
-  );
+    })
+    .then((res) => (areas.value = res.data.areas));
 });
 </script>
 

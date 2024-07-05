@@ -34,10 +34,10 @@ import { MESSAGE } from "@/constants/Message";
 import BaseDialog from "@/components/BaseDialog.vue";
 import { SIDE_BAR } from "@/constants/SideBar";
 import { UI } from "@/constants/UI";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 const logoutDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
 const router = useRouter();
-const userStore = user();
+const userStore = useUserStore();
 
 /**
  * Show logout dialog
@@ -56,7 +56,7 @@ function showLogoutDialog(): void {
  * @author Yuto Saito
  */
 function logout(): void {
-  userStore.clear();
+  userStore.$reset();
   router.push("login");
 }
 </script>

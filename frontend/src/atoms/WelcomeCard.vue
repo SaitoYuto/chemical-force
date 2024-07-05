@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 /**
  * Get greed message depends on current hour
@@ -28,7 +28,7 @@ function getGreedMessage(): string {
   } else {
     greed = "Welcome";
   }
-  return greed + " " + user().getFirstName + "!";
+  return greed + " " + useUserStore().getFirstName + "!";
 }
 </script>
 

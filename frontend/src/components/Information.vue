@@ -24,7 +24,7 @@ import BaseDialog from "@/components/BaseDialog.vue";
 import { Information } from "@/interfaces/Common/Information";
 import { GetInformationRequest } from "@/interfaces/Requests/GetInformation";
 import { GetInformationResponse } from "@/interfaces/Responses/GetInformation";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 import ApiRequester from "@/utils/ApiRequester";
 
 const errorDialog = ref<InstanceType<typeof BaseDialog> | null>(null);
@@ -37,19 +37,14 @@ const visible = ref(false);
  *
  * @author Yuto Saito
  */
-onMounted(() => {
-  new ApiRequester<GetInformationRequest, GetInformationResponse>().call(
-    "getInformation",
-    {
-      id: user().getId,
-    },
-    (response) => {
-      infos.value = response.information;
-    },
-    (apiError) => {
-      errorDialog.value?.open(apiError.errors);
-    }
-  );
+onMounted(async () => {
+  const response = await new ApiRequester<
+    GetInformationRequest,
+    GetInformationResponse
+  >().post("getInformation", {
+    id: useUserStore().getId,
+  });
+  infos.value = response.data.information;
 });
 
 /**

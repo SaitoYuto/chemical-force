@@ -2,11 +2,13 @@
   <v-app>
     <v-main>
       <router-view />
+      <ErrorDialog />
     </v-main>
   </v-app>
 </template>
 
 <script lang="ts" setup>
+import ErrorDialog from "@/components/ErrorDialog.vue";
 import { worker } from "@/mocks/browser";
 
 if (import.meta.env.DEV) {

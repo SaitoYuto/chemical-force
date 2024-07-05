@@ -1,5 +1,5 @@
 import { UI } from "@/constants/UI";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 export const SIDE_BAR = [
   { path: "/", icon: UI.ICON.HOME, title: "Home", visibility: true },
@@ -19,6 +19,6 @@ export const SIDE_BAR = [
     path: "/team",
     icon: UI.ICON.TEAM,
     title: "Team",
-    visibility: user().isSupervisor,
+    visibility: useUserStore().isSupervisor,
   },
 ];

@@ -1,24 +1,59 @@
-import axios, {
-  AxiosError,
-  AxiosResponse,
-  type AxiosRequestConfig,
-} from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
 import type { ApiCommonParam } from "@/interfaces/Requests/ApiCommonParam";
 import type { ApiErrorData } from "@/interfaces/Responses/ApiErrorData";
-import { user } from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 /**
  * API Request Base class
  *
- * P: Parameter
- * R: Response
+ * P: Request Parameter Type
+ * R: Response Parameter Type
  */
 export default class ApiRequester<P, R> {
   // API Version
-  private apiVersion = "1.0";
+  static readonly VERSION: string = "1.0";
 
   // API Timeout
-  private timeout = 50000;
+  static readonly TIMEOUT: number = 50000;
+
+  // API End point
+  static readonly END_POINT: string = "/api/";
+
+  // Axios client Instance
+  private client: AxiosInstance;
+
+  /**
+   * Constructor where setting interceptor.
+   */
+  constructor() {
+    this.client = axios.create({
+      baseURL: this.baseUrl,
+      timeout: ApiRequester.TIMEOUT,
+      headers: { "Content-Type": "application/json" },
+    });
+
+    this.client.interceptors.request.use((config) => {
+      const token = useUserStore().getToken;
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    });
+
+    this.client.interceptors.response.use(
+      (response: AxiosResponse<R>) => {
+        return response;
+      },
+      (error: AxiosError<ApiErrorData>) => {
+        if (error.response && error.response.data.errors) {
+          const errorData: ApiErrorData = error.response.data;
+          return Promise.reject(errorData);
+        }
+        console.error("Implementation Error");
+        return Promise.reject(error);
+      }
+    );
+  }
 
   /**
    * getter for base url
@@ -26,61 +61,37 @@ export default class ApiRequester<P, R> {
    * @returns base url
    */
   get baseUrl(): string {
-    const endpoint = import.meta.env.DEV
-      ? location.origin
-      : import.meta.env.VITE_BASE_URL;
-    return endpoint + "/api/";
+    return import.meta.env.DEV
+      ? location.origin + ApiRequester.END_POINT
+      : import.meta.env.VITE_BASE_URL + ApiRequester.END_POINT;
   }
 
   /**
    * build merged parameter with common parameter and each parameter
    *
-   * @param param each API parameter
+   * @param param API request parameter
    * @returns merged parameter
    */
   private buildParam(param: P): P & ApiCommonParam {
-    return { ...{ api_version: this.apiVersion }, ...param };
+    return { ...{ api_version: ApiRequester.VERSION }, ...param };
   }
 
   /**
    * API request call
    *
-   * @param name api name
-   * @param param api param
-   * @param onSuccess callback function on success
-   * @param onError callback function on error
+   * @param api API name
+   * @param param API parameter
+   * @returns API response
    */
-  public async call(
-    name: string,
-    param: P,
-    onSuccess?: (responseData: R) => void,
-    onError?: (responseData: ApiErrorData) => void
-  ): Promise<R> {
-    const url = this.baseUrl + name;
-    const token = user().getToken;
-    const config: AxiosRequestConfig = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: user().getToken ? `Bearer ${token}` : undefined,
-      },
-      timeout: this.timeout,
-    };
-    const requestParam = this.buildParam(param);
-    return axios
-      .post<R, AxiosResponse<R>, P>(url, requestParam, config)
-      .then((response: AxiosResponse<R>) => {
-        const responseData = response.data;
-        if (onSuccess) {
-          onSuccess(responseData);
-        }
-        return responseData;
-      })
-      .catch((error: AxiosError<ApiErrorData>) => {
-        if (error.response && onError) {
-          const errorData = error.response.data;
-          onError(errorData);
-        }
-        return Promise.reject(error);
-      });
+  public async post(api: string, param: P) {
+    try {
+      return this.client.post<R, AxiosResponse<R>, P>(
+        api,
+        this.buildParam(param)
+      );
+    } catch (error) {
+      console.error(`Error occurred during API request to ${api}:`, error);
+      throw error;
+    }
   }
 }

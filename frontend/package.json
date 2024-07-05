@@ -10,11 +10,11 @@
   "type": "module",
   "dependencies": {
     "@mdi/font": "6.2.95",
+    "@vueuse/core": "^10.11.0",
     "axios": "^1.6.8",
     "chance": "^1.1.11",
     "core-js": "^3.34.0",
     "msw": "^2.3.0",
-    "pinia-plugin-persistedstate": "^3.2.1",
     "roboto-fontface": "*",
     "vue": "^3.4.21",
     "vuetify": "^3.5.8"
