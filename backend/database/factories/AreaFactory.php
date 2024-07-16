@@ -10,6 +10,12 @@ use \App\Models\SalesRep;
  */
 class AreaFactory extends Factory
 {
+
+    /**
+     * Sequential Number
+     */
+    private static int $sequence = 1;
+
     /**
      * Define the model's default state.
      *
@@ -18,7 +24,7 @@ class AreaFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => 'A' . $this->faker->numberBetween(0, 99999),
+            'id' => 'A' . self::$sequence++,
             'name' => $this->faker->city(),
             'depot' => $this->faker->secondaryAddress(),
             'sales_target' => $this->faker->numberBetween(100, 600),

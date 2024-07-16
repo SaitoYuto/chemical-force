@@ -43,8 +43,8 @@ class ProductFactory extends Factory
             'id' => 'P' . $this->faker->numberBetween(0, 99999),
             'name' => $name,
             'description' => self::$nameToDesc[$name],
-            'price' => $this->faker->randomNumber(6),
-            'volume' => $this->faker->randomNumber(2),
+            'price' => $this->faker->numberBetween(1, 999),
+            'volume' => $this->faker->numberBetween(1, 500),
             'unit' => $this->faker->randomElement(['little', 'gallon']),
             'sales_rep_id' => SalesRep::inRandomOrder()->first()->id
         ];

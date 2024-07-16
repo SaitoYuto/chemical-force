@@ -5,17 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetAreaRequest;
 use App\Http\Responses\GetAreaResponse;
-use App\Interfaces\SalesRepRepositoryInterface;
+use App\Models\Area;
 use Exception;
 
 class GetAreaController extends Controller
 {
-    private SalesRepRepositoryInterface $salesRepRepository;
-
-    public function __construct(SalesRepRepositoryInterface $salesRepRepository)
-    {
-        $this->salesRepRepository = $salesRepRepository;
-    }
 
     /**
      * Handle the incoming request.
@@ -24,8 +18,10 @@ class GetAreaController extends Controller
     {
         $validated = $request->validated();
         try {
-            $workingAreas = $this->salesRepRepository->findWorkingAreaById($validated['id'], true);
-            return new GetAreaResponse($workingAreas);
+            $results = Area::whereHas('workers', function ($query) use ($validated) {
+                $query->where('sales_rep_id', $validated["id"]);
+            })->with('manager:id')->get();
+            return new GetAreaResponse($results);
         } catch (Exception $e) {
             return $this->handleException($e);
         }

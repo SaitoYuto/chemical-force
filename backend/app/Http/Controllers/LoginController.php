@@ -32,7 +32,7 @@ class LoginController extends Controller
                 $user->id,
                 $user->name,
                 $user->createToken('auth_token')->plainTextToken,
-                $user->salesRep->supervisor_id,
+                $user->maps->supervisor_id,
             );
         } catch (Exception $e) {
             return $this->handleException($e);

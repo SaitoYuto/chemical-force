@@ -8,10 +8,10 @@ use App\Repositories\CustomerRepository;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Repositories\InformationRepository;
 use App\Interfaces\InformationRepositoryInterface;
-use App\Repositories\SalesRepRepository;
-use App\Interfaces\SalesRepRepositoryInterface;
 use App\Repositories\ProductRepository;
 use App\Interfaces\ProductRepositoryInterface;
+use App\Repositories\SalesRepRepository;
+use App\Interfaces\SalesRepRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 

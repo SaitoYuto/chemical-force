@@ -33,7 +33,11 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::where('id', $product['id'])
             ->update([
-                'name' => $product['name'], 'description' => $product['description'], 'price' => $product['price'], 'volume' => $product['volume'], 'unit' => $product['unit']
+                'name' => $product['name'],
+                'description' => $product['description'],
+                'price' => $product['price'],
+                'volume' => $product['volume'],
+                'unit' => $product['unit']
             ]);
     }
 
