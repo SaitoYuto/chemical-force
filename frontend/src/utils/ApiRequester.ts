@@ -61,9 +61,7 @@ export default class ApiRequester<P, R> {
    * @returns base url
    */
   get baseUrl(): string {
-    return import.meta.env.DEV
-      ? location.origin + ApiRequester.END_POINT
-      : import.meta.env.VITE_BASE_URL + ApiRequester.END_POINT;
+    return location.origin + ApiRequester.END_POINT;
   }
 
   /**
