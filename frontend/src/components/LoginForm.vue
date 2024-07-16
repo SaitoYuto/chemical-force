@@ -16,7 +16,11 @@
       <p id="login-failure" class="text-center" v-if="loginFailure">
         {{ MESSAGE.ERROR.LOGIN }}
       </p>
-      <BaseButton text="LOGIN" @click="login" class="mt-2"></BaseButton>
+      <BaseButton
+        :text="UI.LABEL.LOGIN"
+        @click="login"
+        class="mt-2"
+      ></BaseButton>
     </v-sheet>
   </v-form>
 </template>
@@ -25,6 +29,7 @@
 import BaseButton from "@/atoms/BaseButton.vue";
 import RequiredTextField from "@/atoms/RequiredTextField.vue";
 import { MESSAGE } from "@/constants/Message";
+import { UI } from "@/constants/UI";
 import { LoginResponse } from "@/interfaces/Responses/Login";
 import { LoginRequest } from "@/interfaces/Requests/Login";
 import ApiRequester from "@/utils/ApiRequester";
@@ -46,6 +51,7 @@ const loginFailure = ref(false);
 async function login() {
   const validResult = await loginForm.value.validate();
   if (!validResult.valid) {
+    loginFailure.value = true;
     return;
   }
   try {

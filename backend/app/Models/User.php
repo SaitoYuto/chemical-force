@@ -50,7 +50,12 @@ class User extends Authenticatable
         ];
     }
 
-    public function salesRep()
+    /**
+     * One user maps with one sales representative 
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function maps()
     {
         return $this->hasOne(SalesRep::class, 'id', 'id');
     }

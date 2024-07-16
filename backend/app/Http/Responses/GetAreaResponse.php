@@ -9,7 +9,7 @@ class GetAreaResponse implements Responsable
 {
 
     /**
-     * @var array
+     * @var Eloquent\Collection
      */
     private $areas;
 
@@ -27,7 +27,17 @@ class GetAreaResponse implements Responsable
     public function toResponse($request)
     {
         return response()->json(
-            ['areas' => $this->areas],
+            ['areas' => $this->areas->map(function ($area) {
+                return [
+                    'id' => $area->id,
+                    'name' => $area->name,
+                    'depot' => $area->depot,
+                    'sales_target' => $area->sales_target,
+                    'image' => "image/{$area->id}.jpg",
+                    'manager_id' => $area->manager_id,
+                    'manager_name' => $area->manager->user->name ?? null,
+                ];
+            })],
             Response::HTTP_OK
         );
     }

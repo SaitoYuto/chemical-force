@@ -10,6 +10,7 @@ export const UI = {
     CITY: "mdi-city",
     CLOSE: "mdi-close",
     DELETE: "mdi-delete",
+    GBP: "mdi-currency-gbp",
     HOME: "mdi-home",
     PENCIL: "mdi-pencil",
     STORE: "mdi-store",
@@ -21,9 +22,15 @@ export const UI = {
     PURPLE: "deep-purple-accent-4",
   },
   LABEL: {
+    ASSIGN: "Assign",
     CLOSE: "Close",
+    EDIT: "Edit",
     ERROR: "Error",
+    DELETE: "Delete",
+    DETAIL: "Detail",
+    LOGIN: "Login",
     OK: "OK",
+    USER_ID: "USER ID",
     UPDATE: "Update",
   },
 } as const;

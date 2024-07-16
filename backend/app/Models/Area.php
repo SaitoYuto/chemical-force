@@ -15,13 +15,23 @@ class Area extends Model
 
     public $timestamps = false;
 
+    /**
+     * One area is worked by multiple sales representatives
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function workers()
     {
         return $this->belongsToMany(SalesRep::class, 'workings', 'area_id', 'sales_rep_id');
     }
 
+    /**
+     * One area is managed by one manager sales representative 
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function manager()
     {
-        return $this->belongsTo(SalesRep::class, 'chief_manager_id', 'sales_rep_id');
+        return $this->belongsTo(SalesRep::class, 'manager_id', 'id');
     }
 }
