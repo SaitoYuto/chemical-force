@@ -12,7 +12,6 @@ BackEnd is designed to receive requests from FrontEnd and return JSON response.
 
 -   [Laravel](https://laravel.com/docs/11.x)
 -   [Composer](https://getcomposer.org/)
--   [XAMPP](https://www.apachefriends.org/jp/index.html)
 
 ## Setup
 
