@@ -17,7 +17,7 @@ class InformationFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => 'I' . $this->faker->numberBetween(0, 99999),
+            'id' => 'I' . $this->faker->unique()->numberBetween(0, 99999),
             'title' => $this->faker->sentence(),
             'content' => $this->faker->realText(),
         ];

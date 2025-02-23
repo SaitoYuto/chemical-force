@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->foreign('sales_rep_id')->references('id')->on('users')->cascadeOnDelete();
         });
-        DB::statement("ALTER TABLE customers ADD CONSTRAINT chk_id CHECK (id REGEXP '^C[0-9]+$');");
+        DB::statement("ALTER TABLE customers ADD CONSTRAINT chk_cust_id CHECK (id REGEXP '^C[0-9]+$');");
     }
 
     /**

@@ -40,7 +40,7 @@ class ProductFactory extends Factory
     {
         $name = $this->faker->randomKey(self::$nameToDesc);
         return [
-            'id' => 'P' . $this->faker->numberBetween(0, 99999),
+            'id' => 'P' . $this->faker->unique()->numberBetween(0, 99999),
             'name' => $name,
             'description' => self::$nameToDesc[$name],
             'price' => $this->faker->numberBetween(1, 999),

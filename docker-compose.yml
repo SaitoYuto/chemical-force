@@ -1,0 +1,48 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: chemicalforce_fe
+    ports:
+      - "8080:80"
+    networks:
+      - chemicalforce_network
+    depends_on:
+      - backend
+  backend:
+    build: ./backend
+    container_name: chemicalforce_be
+    restart: always
+    depends_on:
+      - mysql
+    volumes:
+      - ./backend:/var/www
+    ports:
+      - "8000:8000"
+    networks:
+      - chemicalforce_network
+    command: >
+      sh -c "sleep 7 &&
+      php artisan migrate:fresh --force &&
+      php artisan db:seed --force &&
+      php artisan serve --host=0.0.0.0 --port=8000"
+
+  mysql:
+    image: mysql:8.0
+    container_name: chemicalforce_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chemicalforce
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - chemicalforce_network
+      
+
+volumes:
+  mysql_data:
+
+networks:
+  chemicalforce_network:
