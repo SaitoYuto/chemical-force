@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->foreign('sales_rep_id')->references('id')->on('users')->cascadeOnDelete();
         });
-        DB::statement("ALTER TABLE products ADD CONSTRAINT chk_id CHECK (id REGEXP '^P[0-9]+$');");
+        DB::statement("ALTER TABLE products ADD CONSTRAINT chk_prod_id CHECK (id REGEXP '^P[0-9]+$');");
         DB::statement("ALTER TABLE products ADD CONSTRAINT chk_price CHECK (price > 0);");
         DB::statement("ALTER TABLE products ADD CONSTRAINT chk_volume CHECK (volume > 0);");
     }

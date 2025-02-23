@@ -21,7 +21,7 @@ return new class extends Migration
 
             $table->foreign('manager_id')->references('id')->on('users')->cascadeOnDelete();
         });
-        DB::statement("ALTER TABLE areas ADD CONSTRAINT chk_customer_id CHECK (id REGEXP '^A[0-9]+$');");
+        DB::statement("ALTER TABLE areas ADD CONSTRAINT chk_area_id CHECK (id REGEXP '^A[0-9]+$');");
         DB::statement("ALTER TABLE areas ADD CONSTRAINT chk_sales_target CHECK (sales_target > 0);");
     }
 

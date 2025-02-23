@@ -66,7 +66,7 @@ const expandSet = ref(new Set());
  * @author Yuto Saito
  */
 function generateImageUrl(image: string): string {
-  return import.meta.env.DEV ? image : location.origin + "/" + image;
+  return import.meta.env.VITE_API_URL + "/" + image;
 }
 
 /**
