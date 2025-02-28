@@ -23,21 +23,3 @@ Check `frontend` directory.
 ## BackEnd
 
 Check `backend` directory.
-
-## Integration on localhost
-
-- Remember that you require MySQL for database.
-- Firstly, setup database and run Laravel built-in server
-
-1. `cd .\backend\`
-1. `php artisan migrate`
-1. `php artisan db:seed`
-1. `php artisan serve`
-
-- Next, run Vite built-in server.
-- Here, run `npm run preview` for integration.
-  - Check `/frontend/vite.config.mts`, where sets for API endpoint.
-
-1. `cd .\frontend\`
-1. `npm run build`
-1. `npm run preview`
